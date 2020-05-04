@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang = "en">
   <head>
+	
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Police and weather info</title>
+  <link rel="manifest" href="/manifest.webmanifest">
   <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
   <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -67,6 +69,7 @@
 	<p id = "Num_of_input"></p>
   	<input id = "user_input">
 	<button id = "Create" onclick= "Process(document.getElementById('user_input').value);">Enter data</button>
+	<button id = "Get_data" onclick = "Get_information()">Click heard to search for the data</button>
 	<button id = "Clear" onclick= "Reset_input_list()">Empty data</button>
 	</div>
 		
@@ -80,7 +83,10 @@
 
     <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAr602N7GPHLDcSfLIkjxUvL8oC6fmw0ms&callback=initMap"></script>  
  	-->
-	<div id = "Weather" class = "view" style = "display:none;">Weather will be displayed here</div>	
+	<div id = "Weather" class = "view" style = "display:none;">
+	<p>Weather will be displayed here</p>
+		<!--let weatherurl = https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={YOUR API KEY};-->
+	</div>	
   </main>
 	  
   <script>
@@ -91,33 +97,35 @@
 	  
 	 document.getElementById("Input_entered").innerHTML = "No input has been entered";
 	 function AddResults(input){
-		 if(!list_of_input.includes(input)){
+		 if((!list_of_input.includes(input))&&(input != "")){
 				list_of_input.push(input);
 				document.getElementById("Input_entered").innerHTML = "Here are the inputs: " + list_of_input;
 			    document.getElementById("Num_of_input").innerHTML = "Here is the amount of inputs: " + list_of_input.length;
 		 }
 	 }
+	  
 	 function Reset_input_list(){
 		 list_of_input = [];
 	 	 document.getElementById("Input_entered").innerHTML = "No input has been entered";
 	 }
 	 
-	  //Make a function to get the data based on the input
-	  const api = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?";
-	  document.getElementById("Create").addEventListener("click", function(){ 
+	 //Make a function to get the data based on the input
+	 const api = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?";
+	  
+	 function Get_information(){ 	
+	  
 	  for(let x = 0; x < list_of_input.length; x++){
 			fetch(api + "sr_type=" + list_of_input[x]).then ((response) => { return response.json();})
            .then ((json) => { for (let record of json){
 				 list_of_types.push(record["sr_type"]);
 				 list_of_latitude.push(record["latitude"]);
-				 list_of_longitude.push(record["longitude"]);	
-			}})}	
-	  	
+				 list_of_longitude.push(record["longitude"]);	}})}	
 	  	  	 
 	document.getElementById("type").innerHTML = "Type: " + list_of_types;
 	document.getElementById("latitude").innerHTML = "Latitude: " + list_of_latitude;
 	document.getElementById("longitude").innerHTML = "Longitude: " + list_of_longitude;
-	});
+	}
+	  
 	  
 	document.getElementById("Clear").addEventListener("click", function(){ document.getElementById("test").innerHTML = "";});
 	document.getElementById("Num_of_input").innerHTML = "Here is the amount of inputs: 0";
