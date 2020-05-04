@@ -85,7 +85,7 @@
  	-->
 	<div id = "Weather" class = "view" style = "display:none;">
 	<p>Weather will be displayed here</p>
-		<!--let weatherurl = https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={YOUR API KEY};-->
+		
 	</div>	
   </main>
 	  
@@ -134,7 +134,7 @@
 			AddResults(names);	
 			}
 	
-	/*  
+	  
 	function initMap(){
   		let uluru = {lat: -25.363, lng: 131.044};
   		let map = new google.maps.Map(document.getElementById('map'), {
@@ -144,26 +144,23 @@
     
 	
     
-  	for(let i of inspectionData){
+  	for(let i = 0; i < list_of_input.length; i++){
       	console.log(i);
       	let marker = new google.maps.Marker({
-            position: {lat: parseFloat(i.latitude), lng: parseFloat(i.longitude)},
+            position: {lat: parseFloat(list_of_latitude[i]), lng: parseFloat(list_of_longitude[i])},
             map: map,
-            title: i.dba_name });
+            title: list_of_input[i] });
       
       let infowindow = new google.maps.InfoWindow({
-        content: "Title: " + i.dba_name +
-                 "<p></p>Facility: " + i.facility_type + 
-                 "<p></p>Address: " + i.address +
-                 "<p></p>Date: " + i.inspection_date +
-                 "<p></p>Result: " + i.results
+        content: "Title: " + list_of_input[i]
+                
       	});
   		marker.addListener('click',() => {
     		infowindow.open(map, marker);
   		});
   		}
 	}
-	*/ 
+	 
 	  
     mdc.topAppBar.MDCTopAppBar.attachTo(document.querySelector('header.mdc-top-app-bar'));
     const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
@@ -181,7 +178,10 @@
 		drawer.open = "false";
     	//handle click
   		})
-	})  
+	})
+	  
+	//let weatherurl = https:api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={YOUR API KEY};  
+
     </script>
   </body>
 </html>
